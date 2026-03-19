@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version from plugin header
+        id: version
+        run: |
+          VERSION=$(grep -m1 'Version:' svp-fru/svp-fru.php | awk '{print $NF}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Zip plugin
+        run: zip -r svp-fru.zip svp-fru/
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ steps.version.outputs.version }}
+          files: svp-fru.zip
