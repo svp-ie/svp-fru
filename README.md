@@ -43,3 +43,19 @@ To install Fundraise Up for account switching you need a Subaccount setup for th
 ```
 [fru_switch label="Custom text"]
 ```
+
+## New version release
+
+1. Bump the version number in the .php file   __<---always do this part!__
+
+2. Tag the commit
+
+```
+git tag -f release
+```
+
+1. Now push the change
+
+```
+git push -f origin release
+```
