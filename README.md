@@ -29,10 +29,10 @@ To install Fundraise Up for account switching you need a Subaccount setup for th
 1. Add the `[fru_install]` shortcode to the site header template
 
 ```
-[fru_script gb_widget="AAAAAAAA" intl_widget="BBBBBBBB"]
+[fru_install gb_widget="AAAAAAAA" intl_widget="BBBBBBBB"]
 ```
 
-1. Optionally add the `[fru_link]` shortcode wherever you'd like the FRU button element to appear
+1. Optionally add the `[fru_link]` shortcode wherever you'd like the FRU link element to appear
 
 ```
 [fru_link gb_href="#CCCCCCCC" intl_href="#DDDDDDDD"]
@@ -48,14 +48,14 @@ To install Fundraise Up for account switching you need a Subaccount setup for th
 
 1. Bump the version number in the .php file   __<---always do this part!__
 
-2. First push the latest commit to the remote repo
+2. First tag the commit as a release, we force as that tag already exists
 
 ```
-git push origin main
+git tag -f release
 ```
 
-1. Now tag branch and trigger the release workflow
+1. Now push to the remote repo
 
 ```
-git tag -f release && git push -f origin refs/tags/release
+ git push origin main
 ```
