@@ -48,14 +48,14 @@ To install Fundraise Up for account switching you need a Subaccount setup for th
 
 1. Bump the version number in the .php file   __<---always do this part!__
 
-2. First tag the commit as a release, we force as that tag already exists
+2. First push the latest commit to the remote
 
-```
-git tag -f release
-```
-
-1. Now push to the remote repo
-
-```
+```git
  git push origin main
+```
+
+1. Now trigger the release by updating the tag and pushing it too
+
+```git
+git tag -f release && git push -f origin refs/tags/release
 ```

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SVP FundraiseUp
  * Description: Inserts the correct FundraiseUp widget based on visitor country, detected via Cloudflare.
- * Version:     1.1.1
+ * Version:     1.1.2
  * Author:      SVP
  */
 
