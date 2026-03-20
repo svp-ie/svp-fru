@@ -29,16 +29,16 @@ To install Fundraise Up for account switching you need a Subaccount setup for th
 1. Add the `[fru_install]` shortcode to the site header template
 
 ```
-[fru_script gb_widget="APVKVGAC" intl_widget="AVYLHELK"]
+[fru_script gb_widget="AAAAAAAA" intl_widget="BBBBBBBB"]
 ```
 
-1. Optionally add the `[fru_button]` shortcode wherever you'd like the FRU button element to appear
+2. Optionally add the `[fru_link]` shortcode wherever you'd like the FRU button element to appear
 
 ```
-[fru_button gb_href="#XAYBUKJT" intl_href="#XLBJGPGQ"]
+[fru_link gb_href="#CCCCCCCC" intl_href="#DDDDDDDD"]
 ```
 
-1. Optionally add the `[fru_switch]` shortcode wherever you'd like the switch function to appear
+3. Optionally add the `[fru_switch]` shortcode wherever you'd like the switch function to appear
 
 ```
 [fru_switch label="Custom text"]
@@ -54,7 +54,7 @@ To install Fundraise Up for account switching you need a Subaccount setup for th
 git tag -f release
 ```
 
-1. Now push the change
+3. Now push the change
 
 ```
 git push -f origin release

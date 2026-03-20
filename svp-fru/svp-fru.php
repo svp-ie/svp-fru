@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SVP FundraiseUp
  * Description: Inserts the correct FundraiseUp widget based on visitor country, detected via Cloudflare.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      SVP
  */
 
@@ -42,9 +42,12 @@ function svp_get_country() {
 function svp_fru_install_shortcode( $atts ) {
     $atts = is_array( $atts ) ? $atts : [];
     if ( empty( $atts['gb_widget'] ) || empty( $atts['intl_widget'] ) ) {
-        return '<!-- fru_install: gb_widget and intl_widget are required -->';
+        return '<script>console.log("fru_install: gb_widget and intl_widget are required");</script>';
     }
     $widget_id = ( svp_get_country() === 'GB' ) ? $atts['gb_widget'] : $atts['intl_widget'];
+    if ( ! preg_match( '/^[A-Z]{8}$/', $widget_id ) ) {
+        return '<script>console.log("fru_install: invalid widget ID format");</script>';
+    }
     $script = <<<JS
 (function(w,d,s,n,a){if(!w[n]){var l='call,catch,on,once,set,then,track,openCheckout'.split(','),i,o=function(n){return'function'==typeof n?o.l.push([arguments])&&o:function(){return o.l.push([n,arguments])&&o}},t=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=!0;j.src='https://cdn.fundraiseup.com/widget/'+a+'';t.parentNode.insertBefore(j,t);o.s=Date.now();o.v=5;o.h=w.location.href;o.l=[];for(i=0;i<8;i++)o[l[i]]=o(l[i]);w[n]=o}})(window,document,'script','FundraiseUp','{$widget_id}');
 JS;
@@ -52,16 +55,22 @@ JS;
 }
 add_shortcode( 'fru_install', 'svp_fru_install_shortcode' );
 
-function svp_fru_button_shortcode( $atts ) {
-    $atts        = shortcode_atts( [ 'gb_href' => '#XAYBUKJT', 'intl_href' => '#XLBJGPGQ' ], $atts, 'fru_button' );
+function svp_fru_link_shortcode( $atts ) {
+    $atts = shortcode_atts( [ 'gb_href' => '', 'intl_href' => '' ], $atts, 'fru_link' );
     $button_href = ( svp_get_country() === 'GB' ) ? $atts['gb_href'] : $atts['intl_href'];
+    if ( empty( $button_href ) ) {
+        return '<script>console.log("fru_link: shortcode used without gb_href/intl_href parameters — no link rendered");</script>';
+    }
+    if ( ! preg_match( '/^#[A-Z]{8}$/', $button_href ) ) {
+        return '<script>console.log("fru_link: invalid href format");</script>';
+    }
     return '<a id="fru-button" href="' . esc_url( $button_href ) . '" style="display: none;"></a>';
 }
-add_shortcode( 'fru_button', 'svp_fru_button_shortcode' );
+add_shortcode( 'fru_link', 'svp_fru_link_shortcode' );
 
 function svp_fru_switch_shortcode( $atts ) {
     $switch_cc  = ( svp_get_country() === 'GB' ) ? 'XX' : 'GB';
-    $switch_url = add_query_arg( 'svp_country', $switch_cc );
+    $switch_url = add_query_arg( 'svp_country', $switch_cc, get_permalink() );
     $defaults   = [ 'label' => ( $switch_cc === 'GB' ) ? 'Switch to UK giving' : 'Switch to international giving' ];
     $atts       = shortcode_atts( $defaults, $atts, 'fru_switch' );
     return '<a href="' . esc_url( $switch_url ) . '">' . esc_html( $atts['label'] ) . '</a>';
